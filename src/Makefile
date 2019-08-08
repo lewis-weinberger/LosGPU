@@ -20,21 +20,20 @@ test: CFLAGS := -fast -ta=host -Mlarge_arrays -mcmodel=medium -std=c++11
 test: TARGET := test
 
 .PHONY: gpu
-wilkes2: CFLAGS := -fast -ta=tesla:cc60 -Mlarge_arrays -mcmodel=medium  \
+gpu: CFLAGS := -fast -ta=tesla:cc60 -Mlarge_arrays -mcmodel=medium  \
 	               -Minfo=accel -std=c++11
-wilkes2: TARGET := wilkes2
+gpu: TARGET := gpu
 
 .PHONY: cpu
-peta4: CFLAGS := -fast -ta=multicore -Minfo=accel -Mlarge_arrays  \
+cpu: CFLAGS := -fast -ta=multicore -Minfo=accel -Mlarge_arrays  \
 	             -mcmodel=medium -std=c++11
-peta4: TARGET := peta4
+cpu: TARGET := cpu
 
 # Build executable #############################################################
 
 test:    $(EXEC)
-ioa:     $(EXEC)
-wilkes2: $(EXEC)
-peta4:   $(EXEC)
+gpu: $(EXEC)
+cpu:   $(EXEC)
 
 %.o: %.cpp $(INCL)
 	$(CC) $(CFLAGS) -c $<
